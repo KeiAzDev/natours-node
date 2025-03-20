@@ -1,0 +1,44 @@
+# 依存関係
+/node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json  # 必要に応じて
+
+# 環境変数
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.env
+config.env
+
+# ログ
+logs
+*.log
+
+# ランタイムデータ
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ディレクトリ
+/dist
+/build
+/coverage
+/.nyc_output
+
+# エディタの設定ファイル
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# その他
+.cache/
+.tmp/
+.temp/
