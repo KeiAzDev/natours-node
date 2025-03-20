@@ -29,6 +29,8 @@ pids
 /build
 /coverage
 /.nyc_output
+/dev-data
+/public
 
 # エディタの設定ファイル
 .idea/
