@@ -16,7 +16,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    passwordChangedAt: req.body.passwordChangedAt || Date.now(),
+    passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role,
   });
   const token = signToken(newUser._id);
   res.status(201).json({
@@ -60,8 +61,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  const freshUser = await User.findById(decoded.id);
-  if (!freshUser) {
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
     return next(
       new AppError(
         'The user belonging to this token does no longer exist.',
@@ -70,11 +71,23 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  if (freshUser.changedPasswordAfter(decoded.iat)) {
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError('User recently changed password! Please log in again.', 401),
     );
   }
 
+  req.user = currentUser;
   next();
 });
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403),
+      );
+    }
+    next();
+  };
+};
