@@ -8,7 +8,7 @@ export default defineConfig([
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
   { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: globals.browser } },
   {
-    files: ["**/controllers/**/*.js", "**/routes/**/*.js", "**/app.js", "**/server.js"],
+    files: ["**/controllers/**/*.js", "**/routes/**/*.js", "**/app.js", "**/server.js", "**/utils/**/*.js"],
     languageOptions: {
       globals: globals.node
     }
